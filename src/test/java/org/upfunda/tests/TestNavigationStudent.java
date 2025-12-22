@@ -7,36 +7,55 @@ import org.upfunda.base.BaseTest;
 import org.upfunda.pages.DashboardPage;
 import org.upfunda.pages.LoginPage1;
 
+import io.qameta.allure.Allure;
+
 public class TestNavigationStudent extends BaseTest {
 
     @Test
     public void verifyStudentNavigation() {
 
-        // 1. Read credentials from config
+        // Read credentials
         String username = config.getProperty("student.username");
         String password = config.getProperty("student.password");
 
-        // 2. Login using PageLogin
         LoginPage1 loginPage = new LoginPage1(driver);
-        loginPage.clickInitialLogin();
-        loginPage.login(username, password);
-
-        // 3. Navigation tests
         DashboardPage dashboardPage = new DashboardPage(driver);
 
-        // 4. Check if dashboard is loaded
-        boolean dashboardLoaded = dashboardPage.isDashboardLoaded();
-        Assert.assertTrue(dashboardLoaded, "Dashboard did not load after login");
+        Allure.step("Login as Student user", () -> {
+            loginPage.clickInitialLogin();
+            loginPage.login(username, password);
+        });
 
-        // 5. Check welcome message
-        String welcomeText = dashboardPage.getWelcomeText();
-        Assert.assertNotNull(welcomeText, "Welcome message element is null on dashboard");
-        Assert.assertTrue(
-                welcomeText.toLowerCase().contains("welcome"),
-                "Welcome message missing on dashboard"
-        );
+        Allure.step("Verify dashboard is loaded after login", () -> {
+            boolean dashboardLoaded = dashboardPage.isDashboardLoaded();
+            Assert.assertTrue(
+                    dashboardLoaded,
+                    "Dashboard did not load after student login"
+            );
+        });
 
-        // 6. If both checks pass, log success
-        Reporter.log("1. Dashboard is successfully loaded and welcome message is displayed: " + welcomeText, true);
+        Allure.step("Verify welcome message is displayed on dashboard", () -> {
+            String welcomeText = dashboardPage.getWelcomeText();
+
+            Assert.assertNotNull(
+                    welcomeText,
+                    "Welcome message element is null on dashboard"
+            );
+
+            Assert.assertTrue(
+                    welcomeText.toLowerCase().contains("welcome"),
+                    "Welcome message missing on dashboard"
+            );
+
+            Allure.addAttachment(
+                    "Welcome Message",
+                    welcomeText
+            );
+
+            Reporter.log(
+                    "Dashboard loaded successfully with welcome message: " + welcomeText,
+                    true
+            );
+        });
     }
 }

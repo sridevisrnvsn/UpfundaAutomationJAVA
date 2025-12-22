@@ -1,6 +1,7 @@
 package org.upfunda.pages;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -53,10 +54,15 @@ public class SignupPage {
     }
 
     public void enterStudentName(String name) {
-        wait.until(ExpectedConditions.elementToBeClickable(nameField))
-                .sendKeys(name);
+        WebElement field = wait.until(
+                ExpectedConditions.elementToBeClickable(nameField)
+        );
+        field.clear();
+        field.sendKeys(name);
+        field.sendKeys(Keys.TAB);
     }
 
+    //selectRandomClass selects some random grade
     public void selectRandomClass() {
         WebElement dropdown = wait.until(
                 ExpectedConditions.elementToBeClickable(classDropdown)
@@ -65,8 +71,10 @@ public class SignupPage {
 
         List<WebElement> options = select.getOptions();
         int randomIndex = new Random().nextInt(options.size() - 1) + 1;
+
         select.selectByIndex(randomIndex);
     }
+
 
     public void selectGenderFemale() {
         new Select(wait.until(
@@ -75,9 +83,16 @@ public class SignupPage {
     }
 
     public void enterDOB(String dob) {
-        wait.until(ExpectedConditions.elementToBeClickable(dobField))
-                .sendKeys(dob);
+        WebElement fielda = wait.until(
+                ExpectedConditions.elementToBeClickable(dobField)
+        ); //DOB field is stored in fielda
+        fielda.click();
+        fielda.sendKeys(Keys.CONTROL + "a");
+        fielda.sendKeys(Keys.DELETE);
+        fielda.sendKeys(dob);
+        fielda.sendKeys(Keys.TAB);
     }
+
 
     public void selectCountryIndia() {
         new Select(wait.until(
@@ -85,8 +100,16 @@ public class SignupPage {
         )).selectByVisibleText("India");
     }
 
+
+    //Click on the Submit button on the Student Details pop-up,
     public void submitStudentDetails() {
-        wait.until(ExpectedConditions.elementToBeClickable(submitBtn))
-                .click();
+        WebElement submit = wait.until(
+                ExpectedConditions.elementToBeClickable(submitBtn)
+        );
+        submit.click();
+
+        // Wait so values are actually saved
+        wait.until(ExpectedConditions.invisibilityOf(submit));
     }
+
 }
