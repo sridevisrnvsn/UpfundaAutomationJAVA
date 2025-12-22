@@ -1,0 +1,1 @@
+{"uuid":"1d1fb52a-9764-4da5-b255-bf4b8044c4c2","name":"org.upfunda.base.BaseTest.setup","children":["6c9d62b7-f56f-4f84-b821-9f8504661d1e"],"description":"","befores":[{"name":"setup","status":"passed","stage":"finished","description":"","steps":[],"attachments":[],"parameters":[],"start":1766132264650,"stop":1766132283176}],"afters":[],"start":1766132264648,"stop":1766132283178}
