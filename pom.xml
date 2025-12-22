@@ -10,11 +10,10 @@
     <version>1.0-SNAPSHOT</version>
 
     <properties>
-        <!-- ✅ FIX: Match installed Java -->
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
-
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
         <allure.version>2.27.0</allure.version>
         <aspectj.version>1.9.22</aspectj.version>
     </properties>
@@ -70,7 +69,7 @@
                 <version>3.13.0</version>
             </plugin>
 
-            <!-- Surefire + TestNG + AspectJ -->
+            <!-- Surefire + TestNG + Allure -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
@@ -79,10 +78,25 @@
                     <suiteXmlFiles>
                         <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
+
+                    <!-- 🔥 This is critical for CI -->
+                    <systemPropertyVariables>
+                        <allure.results.directory>
+                            ${project.build.directory}/allure-results
+                        </allure.results.directory>
+                    </systemPropertyVariables>
+
                     <argLine>
                         -javaagent:"${settings.localRepository}/org/aspectj/aspectjweaver/${aspectj.version}/aspectjweaver-${aspectj.version}.jar"
                     </argLine>
                 </configuration>
+            </plugin>
+
+            <!-- ✅ Allure Maven Plugin (THIS FIXES YOUR ERROR) -->
+            <plugin>
+                <groupId>io.qameta.allure</groupId>
+                <artifactId>allure-maven</artifactId>
+                <version>2.12.0</version>
             </plugin>
 
         </plugins>
