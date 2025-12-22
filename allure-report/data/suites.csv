@@ -1,0 +1,3 @@
+"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
+"","20216","studentSignupFlow","Default Suite","2025-12-22","passed","2025-12-22","org.upfunda.tests.TestStudentSignUp","UpfundaAutomationJAVA","org.upfunda.tests.TestStudentSignUp","studentSignupFlow"
+"","12345","verifyStudentNavigation","Upfunda Automation Suite","2025-12-22","passed","2025-12-22","org.upfunda.tests.TestNavigationStudent","All Tests","org.upfunda.tests.TestNavigationStudent","verifyStudentNavigation"
