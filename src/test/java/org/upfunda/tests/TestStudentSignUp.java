@@ -4,6 +4,10 @@ import org.testng.annotations.Test;
 import org.upfunda.base.BaseTest;
 import org.upfunda.pages.HomePage;
 import org.upfunda.pages.SignupPage;
+import io.qameta.allure.Allure;
+
+import java.io.ByteArrayInputStream;
+import java.nio.charset.StandardCharsets;
 
 public class TestStudentSignUp extends BaseTest {
 
@@ -33,9 +37,13 @@ public class TestStudentSignUp extends BaseTest {
         signupPage.selectCountryIndia();
         signupPage.submitStudentDetails();
 
-        // ✅ Print success message and credentials for testing
-        System.out.println("Student signup completed successfully");
-        System.out.println("✅ Credentials for testing:");
+        // ✅ Attach credentials to Allure report
+        String credentials = "Username: " + email + "\nPassword: " + password;
+        Allure.addAttachment("Student Credentials", new ByteArrayInputStream(credentials.getBytes(StandardCharsets.UTF_8)));
+
+        // Optional console output for local verification
+        System.out.println("Student signup completed successfully.");
+        System.out.println("✅ Credentials attached to Allure report:");
         System.out.println("Email/Username: " + email);
         System.out.println("Password: " + password);
     }
