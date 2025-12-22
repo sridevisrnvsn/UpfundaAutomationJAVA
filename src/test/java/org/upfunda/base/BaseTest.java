@@ -8,6 +8,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.openqa.selenium.chrome.ChromeOptions;
+
 
 
 import java.time.Duration;
@@ -25,11 +27,18 @@ public class BaseTest {
         config = new configreader();
 
         // Initialize driver
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
+        ChromeOptions options = new ChromeOptions();
+
+        options.addArguments("--headless=new");          // REQUIRED for GitHub Actions
+        options.addArguments("--no-sandbox");            // Linux runner safety
+        options.addArguments("--disable-dev-shm-usage"); // Prevents random crashes
+        options.addArguments("--window-size=1920,1080"); // Replaces maximize()
+
+        driver = new ChromeDriver(options);
+
 
         // Explicit wait
-        wait = new WebDriverWait(driver, Duration.ofSeconds(5));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
 
         // Open application URL
         String productionUrl = config.getProperty("url.production");
