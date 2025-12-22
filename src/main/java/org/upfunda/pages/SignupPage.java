@@ -18,7 +18,7 @@ public class SignupPage {
 
     public SignupPage(WebDriver driver) {
         this.driver = driver;
-        this.wait = new WebDriverWait(driver, Duration.ofSeconds(15));
+        this.wait = new WebDriverWait(driver, Duration.ofSeconds(30));
     }
 
     // ---------- Locators ----------

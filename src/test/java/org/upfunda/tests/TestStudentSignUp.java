@@ -11,16 +11,18 @@ public class TestStudentSignUp extends BaseTest {
     public void studentSignupFlow() {
 
         // 1️⃣ Home Page
-        HomePage homePage = new HomePage(driver, wait);
+        HomePage homePage = new HomePage(driver);
         homePage.clickStudentSignup();
 
         // 2️⃣ Signup Page
         SignupPage signupPage = new SignupPage(driver);
 
+        // Generate unique email and define password
         String email = "student_" + System.currentTimeMillis() + "@mailinator.com";
+        String password = "Test@123";
 
         signupPage.enterEmail(email);
-        signupPage.enterPassword("Test@123");
+        signupPage.enterPassword(password);
         signupPage.clickSignup();
 
         // 3️⃣ Student Details Form
@@ -31,6 +33,10 @@ public class TestStudentSignUp extends BaseTest {
         signupPage.selectCountryIndia();
         signupPage.submitStudentDetails();
 
+        // ✅ Print success message and credentials for testing
         System.out.println("Student signup completed successfully");
+        System.out.println("✅ Credentials for testing:");
+        System.out.println("Email/Username: " + email);
+        System.out.println("Password: " + password);
     }
 }
