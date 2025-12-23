@@ -39,6 +39,7 @@ public class SignupPage {
     public void enterEmail(String email) {
         wait.until(ExpectedConditions.elementToBeClickable(emailField))
                 .sendKeys(email);
+
     }
 
     public void enterPassword(String password) {

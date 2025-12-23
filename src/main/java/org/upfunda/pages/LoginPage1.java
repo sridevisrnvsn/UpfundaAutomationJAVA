@@ -63,7 +63,16 @@ public class LoginPage1 {
         safeSendKeys(passwordField, password);
         safeClick(signInBtn);
 
-        // Post-login validation
-        wait.until(ExpectedConditions.urlContains("/student-home"));
+        // Wait for either success OR failure (important!)
+        wait.until(ExpectedConditions.or(
+                ExpectedConditions.visibilityOfElementLocated(By.id("logout")),
+                ExpectedConditions.visibilityOfElementLocated(By.xpath("//div[contains(@class,'error')]"))
+        ));
+
+        // If still on login → fail early with reason
+        if (driver.getCurrentUrl().contains("login")) {
+            throw new AssertionError("Login failed. Still on login page.");
+        }
     }
+
 }
