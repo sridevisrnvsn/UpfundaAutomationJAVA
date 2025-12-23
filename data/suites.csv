@@ -1,2 +1,0 @@
-"DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","19357","studentSignupFlow","Upfunda Automation Suite","Tue Dec 23 09:56:36 UTC 2025","passed","Tue Dec 23 09:56:56 UTC 2025","org.upfunda.tests.TestStudentSignUp","All Tests","org.upfunda.tests.TestStudentSignUp","studentSignupFlow"
