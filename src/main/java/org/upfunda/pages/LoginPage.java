@@ -5,12 +5,12 @@ import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 
-public class LoginPage {
+public class LoginPage1 {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    public LoginPage(WebDriver driver) {
+    public LoginPage1(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
@@ -24,7 +24,7 @@ public class LoginPage {
     private By loginError =
             By.xpath("//div[contains(@class,'error') or contains(text(),'invalid')]");
 
-    // ----------- Dashboard Locators (inside same page object) -----------
+    // ----------- Dashboard Locators -----------
     private By dashboardRoot =
             By.xpath("//div[contains(@class,'dashboard')]");
 
@@ -90,13 +90,14 @@ public class LoginPage {
         safeClick(signInBtn);
 
         try {
-            // Wait for either dashboard OR login error
             wait.until(ExpectedConditions.or(
                     ExpectedConditions.visibilityOfElementLocated(dashboardRoot),
                     ExpectedConditions.visibilityOfElementLocated(loginError)
             ));
         } catch (TimeoutException e) {
-            throw new AssertionError("Login outcome unclear: no dashboard or error appeared");
+            throw new AssertionError(
+                    "Login outcome unclear: neither dashboard nor error appeared"
+            );
         }
 
         if (!isDashboardLoaded()) {
