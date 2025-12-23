@@ -1,4 +1,4 @@
-package org.upfunda.pages;
+package org.upfunda.tests;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
@@ -17,14 +17,14 @@ public class LoginPage {
 
     // ----------- Login Page Locators -----------
     private By initialLoginBtn = By.cssSelector("button[class*='bg-[#6C5CE7]']");
-    private By usernameField = By.cssSelector("input[type='email']");
-    private By passwordField = By.cssSelector("input[type='password']");
-    private By signInBtn = By.xpath("//button[contains(text(),'Sign')]");
+    private By usernameField   = By.cssSelector("input[type='email']");
+    private By passwordField   = By.cssSelector("input[type='password']");
+    private By signInBtn       = By.xpath("//button[contains(text(),'Sign')]");
 
     private By loginError =
             By.xpath("//div[contains(@class,'error') or contains(text(),'invalid')]");
 
-    // ----------- Dashboard Locators -----------
+    // ----------- Dashboard Locators (inside same page object) -----------
     private By dashboardRoot =
             By.xpath("//div[contains(@class,'dashboard')]");
 
@@ -41,8 +41,7 @@ public class LoginPage {
                 element.clear();
                 element.sendKeys(value);
                 return;
-            } catch (StaleElementReferenceException ignored) {
-            }
+            } catch (StaleElementReferenceException ignored) {}
         }
         throw new RuntimeException("Unable to send keys to: " + locator);
     }
@@ -53,8 +52,7 @@ public class LoginPage {
             try {
                 wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
                 return;
-            } catch (StaleElementReferenceException ignored) {
-            }
+            } catch (StaleElementReferenceException ignored) {}
         }
         throw new RuntimeException("Unable to click: " + locator);
     }
@@ -90,14 +88,13 @@ public class LoginPage {
         safeClick(signInBtn);
 
         try {
+            // Wait for either dashboard OR login error
             wait.until(ExpectedConditions.or(
                     ExpectedConditions.visibilityOfElementLocated(dashboardRoot),
                     ExpectedConditions.visibilityOfElementLocated(loginError)
             ));
         } catch (TimeoutException e) {
-            throw new AssertionError(
-                    "Login outcome unclear: neither dashboard nor error appeared"
-            );
+            throw new AssertionError("Login outcome unclear: no dashboard or error appeared");
         }
 
         if (!isDashboardLoaded()) {
