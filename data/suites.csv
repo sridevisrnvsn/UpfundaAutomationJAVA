@@ -1,3 +1,2 @@
 "DESCRIPTION","DURATION IN MS","NAME","PARENT SUITE","START TIME","STATUS","STOP TIME","SUB SUITE","SUITE","TEST CLASS","TEST METHOD"
-"","15683","studentSignupFlow","Upfunda Automation Suite","Mon Dec 22 14:53:26 UTC 2025","passed","Mon Dec 22 14:53:42 UTC 2025","org.upfunda.tests.TestStudentSignUp","All Tests","org.upfunda.tests.TestStudentSignUp","studentSignupFlow"
-"","3882","verifyStudentNavigation","Upfunda Automation Suite","Mon Dec 22 14:53:42 UTC 2025","passed","Mon Dec 22 14:53:46 UTC 2025","org.upfunda.tests.TestNavigationStudent","All Tests","org.upfunda.tests.TestNavigationStudent","verifyStudentNavigation"
+"","19357","studentSignupFlow","Upfunda Automation Suite","Tue Dec 23 09:56:36 UTC 2025","passed","Tue Dec 23 09:56:56 UTC 2025","org.upfunda.tests.TestStudentSignUp","All Tests","org.upfunda.tests.TestStudentSignUp","studentSignupFlow"
