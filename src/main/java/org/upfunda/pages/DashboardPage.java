@@ -1,7 +1,8 @@
-package org.upfunda.pages;
-
-import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.*;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.net.UrlChecker;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 
@@ -15,42 +16,28 @@ public class DashboardPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-    // Robust locator – handles line breaks, dynamic names, React rendering
-    private By welcomeText =
-            By.xpath("//h1[contains(.,'welcome')]");
-
-    // Optional: dashboard-specific element (use if available)
     private By dashboardRoot =
             By.xpath("//div[contains(@class,'dashboard')]");
 
-    /**
-     * Waits until dashboard page is loaded
-     */
-    public void waitForDashboardToLoad() {
-        // Primary validation: page state
-        wait.until(ExpectedConditions.or(
-                ExpectedConditions.visibilityOfElementLocated(welcomeText),
-                ExpectedConditions.visibilityOfElementLocated(dashboardRoot)
-        ));
+    private By welcomeText =
+            By.xpath("//h1[contains(translate(., 'WELCOME', 'welcome'), 'welcome')]");
+
+    public void waitForDashboardPage() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardRoot));
     }
 
-    /**
-     * Returns welcome message text
-     */
-    public String getWelcomeText() {
-        waitForDashboardToLoad();
-        return driver.findElement(welcomeText).getText();
+    public void waitForWelcomeMessage() {
+        wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeText));
     }
 
-    /**
-     * Checks if dashboard is loaded
-     */
     public boolean isDashboardLoaded() {
-        try {
-            waitForDashboardToLoad();
-            return true;
-        } catch (TimeoutException e) {
-            return false;
-        }
+        waitForDashboardPage();
+        waitForWelcomeMessage();
+        return true;
+    }
+
+    public String getWelcomeText() {
+        waitForWelcomeMessage();
+        return driver.findElement(welcomeText).getText();
     }
 }

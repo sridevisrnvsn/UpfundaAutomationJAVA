@@ -17,9 +17,9 @@ public class LoginPage {
 
     // ----------- Login Page Locators -----------
     private By initialLoginBtn = By.cssSelector("button[class*='bg-[#6C5CE7]']");
-    private By usernameField   = By.cssSelector("input[type='email']");
-    private By passwordField   = By.cssSelector("input[type='password']");
-    private By signInBtn       = By.xpath("//button[contains(text(),'Sign')]");
+    private By usernameField = By.cssSelector("input[type='email']");
+    private By passwordField = By.cssSelector("input[type='password']");
+    private By signInBtn = By.xpath("//button[contains(text(),'Sign')]");
 
     private By loginError =
             By.xpath("//div[contains(@class,'error') or contains(text(),'invalid')]");
@@ -41,7 +41,8 @@ public class LoginPage {
                 element.clear();
                 element.sendKeys(value);
                 return;
-            } catch (StaleElementReferenceException ignored) {}
+            } catch (StaleElementReferenceException ignored) {
+            }
         }
         throw new RuntimeException("Unable to send keys to: " + locator);
     }
@@ -52,7 +53,8 @@ public class LoginPage {
             try {
                 wait.until(ExpectedConditions.elementToBeClickable(locator)).click();
                 return;
-            } catch (StaleElementReferenceException ignored) {}
+            } catch (StaleElementReferenceException ignored) {
+            }
         }
         throw new RuntimeException("Unable to click: " + locator);
     }
