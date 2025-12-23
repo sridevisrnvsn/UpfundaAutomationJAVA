@@ -5,12 +5,12 @@ import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 
-public class LoginPage1 {
+public class LoginPage {
 
     private WebDriver driver;
     private WebDriverWait wait;
 
-    public LoginPage1(WebDriver driver) {
+    public LoginPage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
