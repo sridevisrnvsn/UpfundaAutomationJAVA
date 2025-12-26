@@ -1,8 +1,7 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.net.UrlChecker;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+package org.upfunda.pages;
+
+import org.openqa.selenium.*;
+import org.openqa.selenium.support.ui.*;
 
 import java.time.Duration;
 
@@ -16,28 +15,34 @@ public class DashboardPage {
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(20));
     }
 
-    private By dashboardRoot =
-            By.xpath("//div[contains(@class,'dashboard')]");
+    // Welcome header
+    private By welcomeHeader = By.xpath(
+            "//h1[contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'welcome') " +
+                    "or contains(translate(., 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz'), 'hey')]"
+    );
 
-    private By welcomeText =
-            By.xpath("//h1[contains(translate(., 'WELCOME', 'welcome'), 'welcome')]");
-
-    public void waitForDashboardPage() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(dashboardRoot));
-    }
-
-    public void waitForWelcomeMessage() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeText));
-    }
+    // Go to Worksheets button
+    private By goToWorksheetsBtn =
+            By.xpath("//button[contains(.,'Worksheet')]");
 
     public boolean isDashboardLoaded() {
-        waitForDashboardPage();
-        waitForWelcomeMessage();
-        return true;
+        try {
+            wait.until(ExpectedConditions.urlContains("student"));
+            wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeHeader));
+            return true;
+        } catch (TimeoutException e) {
+            return false;
+        }
     }
 
     public String getWelcomeText() {
-        waitForWelcomeMessage();
-        return driver.findElement(welcomeText).getText();
+        return wait.until(
+                ExpectedConditions.visibilityOfElementLocated(welcomeHeader)
+        ).getText();
+    }
+
+    public void goToWorksheets() {
+        wait.until(ExpectedConditions.elementToBeClickable(goToWorksheetsBtn)).click();
+        wait.until(ExpectedConditions.urlContains("worksheets"));
     }
 }

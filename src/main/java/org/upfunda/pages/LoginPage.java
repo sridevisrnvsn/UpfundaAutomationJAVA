@@ -1,4 +1,4 @@
-package org.upfunda.tests;
+package org.upfunda.pages;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
@@ -23,13 +23,6 @@ public class LoginPage {
 
     private By loginError =
             By.xpath("//div[contains(@class,'error') or contains(text(),'invalid')]");
-
-    // ----------- Dashboard Locators (inside same page object) -----------
-    private By dashboardRoot =
-            By.xpath("//div[contains(@class,'dashboard')]");
-
-    private By welcomeText =
-            By.xpath("//h1[contains(translate(., 'WELCOME', 'welcome'), 'welcome')]");
 
     // ---------- Safe SendKeys ----------
     private void safeSendKeys(By locator, String value) {
@@ -62,24 +55,6 @@ public class LoginPage {
         safeClick(initialLoginBtn);
     }
 
-    // ---------- Dashboard wait ----------
-    private void waitForDashboard() {
-        wait.until(ExpectedConditions.or(
-                ExpectedConditions.visibilityOfElementLocated(dashboardRoot),
-                ExpectedConditions.visibilityOfElementLocated(welcomeText)
-        ));
-    }
-
-    // ---------- Dashboard validation ----------
-    public boolean isDashboardLoaded() {
-        try {
-            waitForDashboard();
-            return true;
-        } catch (TimeoutException e) {
-            return false;
-        }
-    }
-
     // ---------- LOGIN ----------
     public void login(String username, String password) {
 
@@ -88,23 +63,20 @@ public class LoginPage {
         safeClick(signInBtn);
 
         try {
-            // Wait for either dashboard OR login error
+            // Login success = navigation OR error shown
             wait.until(ExpectedConditions.or(
-                    ExpectedConditions.visibilityOfElementLocated(dashboardRoot),
+                    ExpectedConditions.urlContains("student-home"),
                     ExpectedConditions.visibilityOfElementLocated(loginError)
             ));
         } catch (TimeoutException e) {
-            throw new AssertionError("Login outcome unclear: no dashboard or error appeared");
+            throw new AssertionError(
+                    "Login outcome unclear. URL: " + driver.getCurrentUrl()
+            );
         }
 
-        if (!isDashboardLoaded()) {
-            throw new AssertionError("Login failed: dashboard not loaded");
+        // Explicit failure case
+        if (driver.findElements(loginError).size() > 0) {
+            throw new AssertionError("Login failed: invalid credentials");
         }
-    }
-
-    // ---------- Optional helper ----------
-    public String getWelcomeText() {
-        wait.until(ExpectedConditions.visibilityOfElementLocated(welcomeText));
-        return driver.findElement(welcomeText).getText();
     }
 }
