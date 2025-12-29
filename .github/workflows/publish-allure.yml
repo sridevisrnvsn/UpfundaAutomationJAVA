@@ -24,10 +24,15 @@ jobs:
         run: mvn clean test
 
       - name: Generate Allure Report
-        run: allure generate target/allure-results --clean -o target/allure-report
+        run: |
+          # Make sure allure command is installed
+          sudo apt-get update
+          sudo apt-get install -y allure
+          # Generate the report
+          allure generate target/allure-results --clean -o target/allure-report
 
       - name: Publish Allure Report to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v3
+        uses: peaceiris/actions-gh-pages@v6
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: target/allure-report
+          publish_dir: ./target/allure-report
