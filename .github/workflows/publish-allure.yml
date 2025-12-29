@@ -23,13 +23,16 @@ jobs:
       - name: Run Maven tests
         run: mvn clean test
 
-      - name: Generate Allure Report
+      - name: Install Allure CLI
         run: |
-          # Make sure allure command is installed
           sudo apt-get update
-          sudo apt-get install -y allure
-          # Generate the report
-          allure generate target/allure-results --clean -o target/allure-report
+          sudo apt-get install -y wget unzip
+          wget https://github.com/allure-framework/allure2/releases/download/2.20.1/allure-2.20.1.zip
+          unzip allure-2.20.1.zip -d $HOME/allure
+          echo "$HOME/allure/allure-2.20.1/bin" >> $GITHUB_PATH
+
+      - name: Generate Allure Report
+        run: allure generate target/allure-results --clean -o target/allure-report
 
       - name: Publish Allure Report to GitHub Pages
         uses: peaceiris/actions-gh-pages@v6
